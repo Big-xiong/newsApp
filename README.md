@@ -1,5 +1,21 @@
-# newsApp
+# Angular
 ## angular基础
-| 控制器 | 指令/组件 | 过滤器 | 服务 | 路由 |
-|-|-|
-| controller | directive | filter | service | route |
+
+|控制器|指令/组件|过滤器|服务|路由|
+|-|-|-|-|-|
+|controller|directive|filter|service|route|
+### 控制器
+#### 内置控制器
+
+|常用的控制器|用法|注意|
+|-|-|-|
+|ng-init|ng-init="value"|主要用来初始化数据，给控制添加初始值|
+|ng-app|ng-app="模块名"|用来声明主模块，一般一个网站或者app一个主模块就够了|
+|ng-controller|ng-controller="控制器名"|声明一个控制器的作用域，一个主模块中可以有多个控制器，一般来说有一个控制器也就可以了|
+|ng-click|ng-click="click()" 绑定一个自定义的函数，点击的时候执行这个函数|如果是事件委托时，需要在函数中传入$event，在自定义的函数中可以打印出e.target,再根据e.target来获取元素的属性，并操作节点的属性|
+|ng-bind|ng-bind="value" value可以为变量，也可以为字符串，数字，但不能为html结构|当为变量的时候，可以与ng-model中的变量进行绑定，达到双向数据绑定|
+|ng-bind-html|ng-bind-html="value|html" value为一段html结构,通常配合自定义的html过滤器一起使用，防止跨域攻击|通过$sce.trustAsHtml(input)将html结构转成安全的html结构|
+|ng-repeat|ng-repeat="n in news" news为一个数组，n为数组中的项|通过$http向后端获取数据后，使用ng-repeat遍历数组，将数组中的每一项遍历到html结构中，渲染到页面，通常n为对象，如果出现报错，通常是要加上"n in news track by $index",这是angular会识别到相同的数据，而无法遍历，%index就相当与创建了一个组件，具有唯一性|
+|ng-class|ng-class="{object}" object为属性名：布尔值，如果为true,则该节点拥有这个类，否则没有|object中的布尔值可以根据是否为自定义模板的名字，使不同组件拥有不同的模版|
+
+#### 自定义控制器
