@@ -1,0 +1,29 @@
+<article class="weui-article">
+    <h1>{{news.title}}</h1>
+    <section>
+        <h2 class="title"></h2>
+        <section>
+            <h3>来自:{{news.source}}</h3>
+            <p ng-bind-html="news.content|html" ng-click="click($event)"></p>
+            <p ng-bind-html="news.digest|html" ng-show="channel == 'xiaohua'"></p>
+        </section>
+    </section>
+    <div class="weui-gallery" style="display: {{showNewsImg?'block':'none'}};" ng-click="changeGallery()">
+        <span class="weui-gallery__img" style="background-image: url({{imgUrl}});"></span>
+        <!-- <div class="weui-gallery__opr">
+            <a href="javascript:" class="weui-gallery__del">
+                <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+            </a>
+        </div> -->
+    </div>
+</article>
+<style>
+.weui-article {
+    text-align: justify;
+}
+
+.weui-article img {
+    margin-top: 10px;
+    width: 100%;
+}
+</style>

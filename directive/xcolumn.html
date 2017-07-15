@@ -1,0 +1,57 @@
+<!-- <ul class="hengxiang">
+    <li class="newslist"><a href="">头条</a></li>
+    <li class="newslist"><a href="">娱乐</a></li>
+    <li class="newslist"><a href="">军事</a></li>
+    <li class="newslist"><a href="">汽车</a></li>
+    <li class="newslist"><a href="">财经</a></li>
+    <li class="newslist"><a href="">笑话</a></li>
+    <li class="newslist"><a href="">体育</a></li>
+    <li class="newslist"><a href="">科技</a></li>
+</ul> -->
+<div class="swiper-container swiper-container-horizontal swiper-container-free-mode">
+    <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
+       <!--  <div class="swiper-slide swiper-slide-active" style="width: 105px; margin-right: 30px;" ng-click="changeColumn(1)" ng-class="{active:tableNum == 1}"><a href="#!/home/weitoutiao/toutiao/1">头条</a></div> -->
+        <div class="swiper-slide swiper-slide-next" style="width: 105px; margin-right: 30px;" ng-click="changeColumn(2)" ng-class="{active:tableNum == 2}"><a href="#!/home/weitoutiao/yule/2">娱乐</a></div>
+        <div class="swiper-slide" style="width: 105px; margin-right: 30px;" ng-click="changeColumn(3)" ng-class="{active:tableNum == 3}"><a href="#!/home/weitoutiao/junshi/3">军事</a></div>
+        <div class="swiper-slide" style="width: 105px; margin-right: 30px;" ng-click="changeColumn(4)" ng-class="{active:tableNum == 4}"><a href="#!/home/weitoutiao/qiche/4">汽车</a></div>
+        <div class="swiper-slide" style="width: 105px; margin-right: 30px;" ng-click="changeColumn(5)" ng-class="{active:tableNum == 5}"><a href="#!/home/weitoutiao/caijing/5">财经</a></div>
+        <div class="swiper-slide" style="width: 105px; margin-right: 30px;" ng-click="changeColumn(6)" ng-class="{active:tableNum == 6}"><a href="#!/home/weitoutiao/xiaohua/6">笑话</a></div>
+        <div class="swiper-slide" style="width: 105px; margin-right: 30px;" ng-click="changeColumn(7)" ng-class="{active:tableNum == 7}"><a href=" #!/home/weitoutiao/tiyu/7">体育</a></div>
+        <div class="swiper-slide" style="width: 105px; margin-right: 30px;" ng-click="changeColumn(8)" ng-class="{active:tableNum == 8}"><a href="#!/home/weitoutiao/keji/8">科技</a></div>
+        <div class="swiper-slide" style="width: 105px; margin-right: 30px;" ng-click="changeColumn(9)" ng-class="{active:tableNum == 9}"><a href="">生活</a></div>
+        <div class="swiper-slide" style="width: 105px; margin-right: 30px;" ng-click="changeColumn(10)" ng-class="{active:tableNum == 10}"><a href="">健康</a></div>
+        <div class="swiper-slide" style="width: 105px; margin-right: 30px;" ng-click="changeColumn(11)" ng-class="{active:tableNum == 11}"><a href="">创业</a></div>
+    </div>
+    <span class="moreColumn">+</span>
+</div>
+<style>
+	.swiper-container.swiper-container-horizontal.swiper-container-free-mode{
+		padding-left: 4px;
+		position: relative;
+		padding-right: 36px
+	}
+	.swiper-slide{
+		line-height: 32px;
+	}
+	.swiper-slide a{
+		color:#000;
+	}
+	.moreColumn{
+		display: block;
+		position: absolute;
+		right:0;
+		top:0;
+		box-shadow: 0 0 0.5px 1px rgba(0,0,0,0.1);
+		width: 32px;
+		height: 32px;
+		background-color: rgba(255,255,255,0.9);
+		z-index: 10;
+		text-align: center;
+		line-height: 32px;
+		color:#999;
+		font-size: 20px;
+	}
+	.swiper-slide.active a{
+		color:red;
+	}
+</style>

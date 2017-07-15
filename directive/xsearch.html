@@ -1,0 +1,19 @@
+<div class="weui-search-bar" id="search_bar" ng-class="{'weui-search-bar_focusing':isShowSearch}">
+    <form class="weui-search-bar__form">
+        <div class="weui-search-bar__box">
+            <i class="weui-icon-search"></i>
+            <input type="search" class="weui-search-bar__input" id="search_input" placeholder="搜索" ng-model="keyword"/>
+            <a href="javascript:" class="weui-icon-clear" id="search_clear" ng-click="clearWord()"></a>
+        </div>
+        <label for="search_input" class="weui-search-bar__label" id="search_text" ng-click="changeShowSearch()">
+            <i class="weui-icon-search"></i>
+            <span>搜索</span>
+        </label>
+    </form>
+    <a href="javascript:" class="weui-search-bar__cancel-btn" id="search_cancel" ng-click="isShowSearch = false">取消</a>
+</div>
+<style>
+    .weui-search-bar::after{
+        border:0;
+    }
+</style>

@@ -1,0 +1,152 @@
+<div class="weui-panel weui-panel_access">
+    <div class="weui-panel__hd">今日推荐</div>
+    <div class="weui-panel__bd" ng-repeat="n in news|filter:{'title':keyword}" ng-class="{toutiao:n.text_image1==''}">
+        <a href="#!/detail/{{n.news_id}}/{{tableNum}}" class="weui-media-box weui-media-box_appmsg">
+            <div class="weui-media-box__hd" ng-class="{toutiao:n.text_image1==''}">
+                <img class="weui-media-box__thumb" ng-src="{{n.top_image}}" alt="" ng-class="{toutiao:n.text_image1==''}">
+            </div>
+            <div class="weui-media-box__bd" ng-class="{toutiao:n.text_image1==''}">
+                <h4 class="weui-media-box__title" ng-class="{toutiao:n.text_image1==''}">{{n.title}}</h4>
+                <p class="weui-media-box__desc" ng-hide="n.text_image1==''">{{n.digest}}</p>
+                <span class="commentCount" ng-class="{toutiao:n.text_image1=='',active:n.reply_count >= 10}">评论数:{{n.reply_count}}</span>
+                <!-- <span>来源:{{n.source}}</span> -->
+                <!-- <span class="del" ng-class="{toutiao:n.text_image1==''}">x</span> -->
+                <span class="commentTime" ng-class="{toutiao:n.text_image1==''}">{{n.edit_time | toNum |date:"yyyy-MM-dd HH:mm:ss"}}</span>
+                <span class="hot" ng-class="{active:n.reply_count >= 10}" ng-show="n.text_image1 !=='' && n.reply_count >= 10 ">热</span>
+            </div>
+        </a>
+    </div>
+    <div class="weui-panel__ft" ng-show="showMore" ng-click="showNews()">
+        <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link">
+            <div class="weui-cell__bd">查看更多</div>
+            <span class="weui-cell__ft"></span>
+        </a>
+    </div>
+    <div class="weui-loadmore" ng-show="isShow">
+        <i class="weui-loading"></i>
+        <span class="weui-loadmore__tips">正在加载</span>
+    </div>
+    <div class="weui-loadmore weui-loadmore_line" ng-show="noMore">
+        <span class="weui-loadmore__tips">暂无数据</span>
+    </div>
+    <xloading></xloading>
+</div>
+<style>
+.weui-media-box__hd.toutiao {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 204px;
+    margin-right: 0px;
+    overflow: hidden;
+}
+.weui-panel__bd.toutiao::after{
+    margin-top: 5px;
+}
+.weui-media-box__thumb.toutiao {
+    width: 100%;
+}
+
+.weui-media-box__title.toutiao {
+    position: absolute;
+    top: -122px;
+    left: -346px;
+    font-size: 14px;
+}
+
+.weui-media-box__bd.toutiao {
+    position: relative;
+}
+
+.commentCount.toutiao,
+.commentTime.toutiao {
+    position: absolute;
+    top: 112px;
+    left: -346px;
+    margin-left: 0px;
+}
+
+.del.toutiao {
+    position: absolute;
+    top: 112px;
+    right: 4px;
+}
+.commentTime.toutiao {
+    margin-left: 160px;
+}
+
+.commentCount.active{
+    margin-left: 24px;
+}
+
+
+.weui-panel__ft {
+    margin-bottom: 53px;
+}
+
+.weui-loadmore {
+    margin-bottom: 70px;
+    margin-top: 10px;
+}
+.weui-media-box{
+    overflow: hidden;
+}
+.weui-media-box__title {
+    font-size: 14px;
+}
+
+.weui-media-box__hd {
+    margin-top: -4px;
+}
+
+.weui-media-box__thumb {
+    width: 100%;
+}
+
+span {
+    font-size: 12px;
+    color: #999;
+}
+
+.weui-panel__bd::after{
+    content:'';
+    width: 92%;
+    margin-left: 4%;
+    margin-right: 4%;
+    height: 1px;
+    display: block;
+    border-bottom: 1px solid #e5e5e5;
+}
+.weui-cell.weui-cell_access.weui-cell_link:before{
+    display: none;
+}
+
+.weui-media-box__bd {
+    position: relative;
+}
+
+.del {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #999;
+    border-radius: 50%;
+    display: block;
+    line-height: 11px;
+    text-align: center;
+    position: absolute;
+    top: 60px;
+    right: 3px;
+}
+.hot.active{
+    width: 18px;
+    height: 18px;
+    border:1px solid red;
+    position: absolute;
+    right: 252px;
+    bottom: 2px;
+    color: red;
+    text-align: center;
+    line-height: 18px;
+    border-radius: 2px;
+}
+</style>
