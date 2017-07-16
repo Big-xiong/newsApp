@@ -28,7 +28,7 @@
 
 #### 自定义指令/组件
 - 自定义指令的写法
-```
+```javascript
 app.directive('ngColor',function(){
      return {
           link:function(scope,ele,attr){
@@ -39,7 +39,7 @@ app.directive('ngColor',function(){
 ```
 通常自定义的指令只会用到link，通过link来创建这个指令独有的方法，与节点绑定在一起，使节点拥有某个功能，例如滑动指令，ngTouch
 - 自定义组件的写法
-```
+```javascript
 app.directive('xheader',function(){
      return {
           restrict:'ECMA', E:元素， C：类， M：注释， A：属性
