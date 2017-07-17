@@ -263,16 +263,16 @@ get请求
 通过$http发起的ajax请求，遇到无法将参数传到后端的时候，可以设置headers:{'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'},并创建 transformRequest函数，更改数据为json格式，使后端能够识别
 
 ### 组件与组件之间的通信
--封装服务来共享数据
--$broadcaste(下) $emit(上) $on(接收)
--localstorage/sessionstorage
--在组件中注入$rootScope,通过全局变量来共享数据
+- 封装服务来共享数据
+- $broadcaste(下) $emit(上) $on(接收)
+- localstorage/sessionstorage
+- 在组件中注入$rootScope,通过全局变量来共享数据
 
 ### 组件中不同模版的DIY方法
--ng-transclude
--利用link中的attr，根据attr来设定组件的css样式
--ng-show/ng-hide/ng-if 利用attr来做判断
--ng-class/ng-style 同上
+- ng-transclude
+- 利用link中的attr，根据attr来设定组件的css样式
+- ng-show/ng-hide/ng-if 利用attr来做判断
+- ng-class/ng-style 同上
 
 ### 事件委托
 ```html
