@@ -4,9 +4,9 @@
 
 ## angular基础
 
-|控制器|指令/组件|过滤器|服务|路由|
-|-|-|-|-|-|
-|controller|directive|filter|service|route|
+|控制器|指令/组件|过滤器|服务|路由|脏检测机制|双向数据绑定|依赖注入|表达式|
+|-|-|-|-|-|-|-|-|-|
+|controller|directive|filter|service|route|dirty check|data binding|dependency injection|{{}}在指令中不需要使用，指令中的变量直接写，加单引号则表示字符|
 
 ### 控制器
 
@@ -38,6 +38,7 @@ app.controller('detailCtrl',function($state){
 |ng-if|ng-if="value" value可以为布尔值，也可以是一个三元运算，只要最后得到的为布尔值就可以，如果为true则删除整个节点|这个指令也可以用来diy组件的模版，根据自定义的模板名字，通常我会用channel来写模版的名字|
 |ng-show|ng-show="同上" 为true则显示节点，否则隐藏节点，不会删除节点|也可用来diy组将模板|
 |ng-hide|ng-hide="同上" 作用与ng-show相反|也可用来diy组件模版|
+|ng-transclude|ng-transclude="value" value为bool值，当为true时，则嵌入某段html结构|
 
 #### 自定义指令/组件
 - 自定义指令的写法
@@ -228,7 +229,9 @@ routes.config(function($stateProvider,$urlRouterProvider){
 });
 ```
 
-## 常见解决问题的方法
+## 常见一些问题
 ### $http传参
-### 组件之间的通信
+### 组件与组件之间的通信
 ### 组件中不同模版的DIY方法
+### angular常见的API
+### 事件委托
