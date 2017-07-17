@@ -6,7 +6,7 @@
 
 |控制器|指令/组件|过滤器|服务|路由|脏检测机制|双向数据绑定|依赖注入|表达式|
 |-|-|-|-|-|-|-|-|-|
-|controller|directive|filter|service|route|dirty check|data binding|dependency injection|{{}}在指令中不需要使用，指令中的变量直接写，加单引号则表示字符|
+|controller|directive|filter|service|route|dirty check|data binding|dependency injection|在指令中不需要使用{{}}表达式，指令中的变量直接写，加单引号则表示字符|
 
 ### 控制器
 
