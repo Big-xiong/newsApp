@@ -181,6 +181,7 @@ app.service("tool", function() {
 |服务|$rootProvider|$stateProvider|
 |参数的获取|$routeParams|$state|
 |重定向|.otherwise({redirectTo:'/index'})|$urlRouterProvider.when('','/index/a');|
+|使用|ng-route|ui-route|
 - 平行路由写法
 ```javascript
 routes.config(function($routeProvider){
@@ -231,7 +232,79 @@ routes.config(function($stateProvider,$urlRouterProvider){
 
 ## 常见一些问题
 ### $http传参
+get请求
+```javascript
+     $http({
+     method: 'GET',
+     url: 'http://localhost:6789/',
+     headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+     },
+     params: {
+          tableNum: scope.tablenum,
+          page: scope.page,
+          pagesize: scope.pageSize
+     },
+     transformRequest: function(obj) {
+          var str = [];
+          for (var p in obj) {
+           str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
+          }
+          return str.join("&");
+     }
+     }).then(function(data) {
+          console.log(data.data.data);
+          scope.banner = data.data.data;
+          scope.isShow--;
+     }, function(err) {
+          console.log(err);
+     });
+```
+通过$http发起的ajax请求，遇到无法将参数传到后端的时候，可以设置headers:{'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'},并创建 transformRequest函数，更改数据为json格式，使后端能够识别
+
 ### 组件与组件之间的通信
+-封装服务来共享数据
+-$broadcaste(下) $emit(上) $on(接收)
+-localstorage/sessionstorage
+-在组件中注入$rootScope,通过全局变量来共享数据
+
 ### 组件中不同模版的DIY方法
-### angular常见的API
+-ng-transclude
+-利用link中的attr，根据attr来设定组件的css样式
+-ng-show/ng-hide/ng-if 利用attr来做判断
+-ng-class/ng-style 同上
+
 ### 事件委托
+```html
+<body ng-controller="indexCtrl">
+     <ul>
+          <li ng-repeat="a in arr" ng-click="Click($index)">{{a}}</li> // 通过$index获取每个节点的索引
+     </ul>
+
+     <ul ng-click="Click2($event)"> // 通过$event来获取事件源对象
+          <li ng-repeat="a in arr">{{a}}</li> 
+     </ul>
+</body>
+```
+```javascript
+var app = angular.module("ngApp", []);
+app.controller("indexCtrl", function($scope) {
+     $scope.arr = ["a", "b", "c"];
+     $scope.Click = function(num){
+          console.log(num)
+     }
+
+     $scope.Click2 = function(e){
+          console.log(e.target)
+          angular.element(e.target).css("color","red")
+     }
+})
+```
+
+### 多个ajax请求的解决方案
+利用数字0的bool值为false,其他数字为true
+scope.show = 0;
+发起一次请求scope.show++,
+完成一次请求scope.show--,
+当存在请求失败的情况时，通过条件判断if(scope.show !==0){scope.show = 0},跳过这个请求
+配合$timeout(function(){},1000);使加载的动画出现1秒后才消失
