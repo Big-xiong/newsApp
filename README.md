@@ -1,11 +1,23 @@
-# Angular MVC框架
-自己从项目中获取的经验，欢迎大家提意见，相互学习
+# Angular1x MVC框架
+自己从项目中获取的经验，欢迎大家提意见，相互学习，在用angular写项目的时候，通常会将controller,directive,filter,service,route分别定义成相应的模块，分成5个js文件来写，方便我们进行维护
 
 ## angular基础
 
 |控制器|指令/组件|过滤器|服务|路由|
 |-|-|-|-|-|
 |controller|directive|filter|service|route|
+
+### 控制器
+
+```javascript
+var app = angular.module('ngApp',['ui.router']);
+// 通过$state来传参
+app.controller('detailCtrl',function($state){
+     console.log($state);
+});
+```
+一个程序只需要一个控制器就好了，需要注意$scope只能注入控制器中，其他任何地方都没法注入$scope，采用组件化开发的时候，可以完全抛弃使用控制器，因为在link:function(scope,ele,attr)中，可以通过scope来定义自己的方法
+
 ### 指令
 #### 常用的内置指令
 
@@ -38,7 +50,7 @@ app.directive('ngColor',function(){
 });
 ```
 通常自定义的指令只会用到link，通过link来创建这个指令独有的方法，与节点绑定在一起，使节点拥有某个功能，例如滑动指令，ngTouch
-- 自定义组件的写法
+- 自定义组件的写法：组件需要有html模版，组件自己的方法，关于组件之间的通信后面会有专门板块详细讲到
 ```javascript
 app.directive('xheader',function(){
      return {
@@ -58,6 +70,161 @@ app.directive('xheader',function(){
       }
  });
 
+```
+
+### 过滤器
+#### 常用内置过滤器
+
+|过滤器|用法|注意|
+|-|-|-|
+|currency| currency:"￥" :3  如果有参数，则用:隔开，参数写在:后面|第一个参数代表金钱符号，美元用$，第二个参数表示精度，3指会保留3为小数|
+|date|date: "yyyy/dd hh:mm:ss EEEE" y:年，M:月，d:日，h:时，m:分，s:秒|从后台获取到的事件格式可能会有:UTC时间/iso时间 UTC时间为一串数字，注意有毫秒跟秒的区别，iso时间格式为：2015-05-20TO3:56:16.887Z,可以通过es5方法date.parse()，转成我们熟悉的UTC时间再进行操作|
+|uppercase/lowercase|uppercase 直接使用就可以了，没有参数|uppercase,将所有的字母变成大写，lowercase,将所有的字母变成小写|
+|json|json 没有参数|转成json字符串|
+|number|number:3 | 转成数字，参数是指几位数字写一个分隔|
+|orderBy|orderBy:value:bool value表示一个变量，bool值为true时，将数据按一个顺序排列，当为false时，于true相反的顺序排列|用来做排序，同样要注意从后台获取的数据的类型，再进行相应的数据类型转换成想要的数据类型来排列,一般都是配合ng-repeat一起使用|
+|filter|filter:{value:search} value指遍历对象的属性，search指输入框中输入的值，会根据输入的值去搜索，将对应的数据显示到页面上|用来做前端的搜索，正常是要搜索应该要需从后端去获取数据再写入页面，一般都是配合ng-repeat一起使用|
+limitTo|limitTo:length:index length指数据的长度，index指从哪个位置开始|主要用来做简单的分页效果，一般都是配合ng-repeat一起使用|
+
+#### 自定义过滤器
+```javascript
+var filters = angular.module('filters', []);
+filters.filter('html', ['$sce',function($sce) {
+   return function(input) {
+       return $sce.trustAsHtml(input);
+   }
+}]); //将html转成可以被信任html结构
+filters.filter('toNum', [function() {
+   return function(input) {
+       return (input+'000')*1;
+   }
+}]); //由于后台的获取的时间格式为字符串，将字符串转成数字
+```
+这是我在项目用到的自定义的过滤器，过滤器中的第一个参数表示过滤器的名字，['$sce',function($sce)]是避免在gulp压缩js文件时，将$sce简写掉，所以用数组的形式，让function去获取到前面的参数
+
+### 服务
+#### 内置服务
+
+|内置服务|用法|
+|-|-|
+|$scope|angular核心，一切的数据都需要$scope，在组件中只需要通过scope来定义|
+|$http|angular定义的ajax请求服务，关于传参的问题，后面会详细讲到|
+|$rootScope|用来定义全局变量，不同于$scope，定义的变量可以注入到其他的控制器或过滤器| 
+|$sce|安全服务|
+|$location|通过这个服务可以获取到url上的路由值|
+|$timeout/$interval|angular里面的延时器和定时器$timeout(function(){},1000)|
+|$window||
+|$document|$document[0].getElementById("num").style.color = "green" 使用时要加上索引|
+
+#### 自定义服务
+```javascript
+//构造器 单例对象
+app.service("tool", function() {
+     this.add = function() {
+          return a + b
+     }
+})
+//工厂模式
+app.factory("tool2", function() {
+     return {
+          add: function(a, b) {
+               return a + b
+          }
+     }
+})
+app.provider("skill", function() {
+     return {
+          $get: function() {
+               return {
+                    name: "ps"
+               }
+          }
+     }
+});
+// 通常的写法，里面可以写入自己封装的各种方法
+app.service("tool", function() {
+     return {
+          add: function(a, b) {
+               return a + b
+          },
+          getQueryString: function(name) {
+               var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+               var r = window.location.search.substr(1).match(reg);
+               if(r != null) return unescape(r[2]);
+               return null;
+          },
+          setCookie: function(name, value) {
+               var days = 10;
+               var ex = new Date();
+               ex.setTime(ex.getTime() + days * 24 * 60 * 60 * 1000);
+               document.cookie = name + "=" + value + ";expires=" + ex;
+          },
+          getCookie: function(name) {
+               var a;
+               var reg = new RegExp("(^|)" + name + "=([^;]*)(;|$)");
+               if(a = document.cookie.match(reg)) {
+                    return a[2];
+               }
+
+          }
+     }
+})
+```
+有以上四种方式可以自定义服务，不难发现第一种跟第四种都是通过service来封装服务，最常用的还是第四种，可以自己封装一些方法，使用的时候，注入tool,例如要使用setCookie方法，则tool.setCookie
+
+### 路由
+||平行路由|嵌套路由|
+|-|-|-|
+|引入文件|angular-route.js|angular-ui-router.js|
+|服务|$rootProvider|$stateProvider|
+|参数的获取|$routeParams|$state|
+|重定向|.otherwise({redirectTo:'/index'})|$urlRouterProvider.when('','/index/a');|
+- 平行路由写法
+```javascript
+routes.config(function($routeProvider){
+     $routeProvider.when('/index',{
+          controller:'indexCtrl',
+          templateUrl:'index.html'
+     }).when('/home',{
+          controller:'homeCtrl',
+          templateUrl:'home.html'
+          // 通过路由来传参
+     }).when('/detail/:id/:skill',{
+          // M C 根据不同的控制器来diy每个模版
+          controller:'detailCtrl',
+          // v 生成统一的模版
+          templateUrl:'detail.html'
+     }).otherwise({
+          redirectTo:'/index'
+     })
+});
+```
+- 嵌套路由写法
+```javascript
+routes.config(function($stateProvider,$urlRouterProvider){
+     // 刷新进入默认路由，显示默认页面
+     $urlRouterProvider.when('','/index/a');
+     $stateProvider.state('index',{
+          url:'/index',
+          templateUrl:'template/index.html'
+     }).state('index.a',{
+          url:'/a',
+          template:'<a href="#!/detail/3/ps">这是热点信息</a>'  // 把要传的数据写在link上，通常是用ng-href
+     }).state('index.b',{
+          url:'/b',
+          template:'<p>这是体育信息</p>'
+     }).state('index.c',{
+          url:'/c',
+          template:'<p>这是政治信息</p>'
+     }).state('index.d',{
+          url:'/d',
+          template:'<p>这是生活信息</p>'
+     }).state('detail',{
+          url:'/detail/:id/:skill',  // 通过路由来传参
+          controller:'detailCtrl',
+          templateUrl:'template/detail.html'
+     })
+});
 ```
 
 
