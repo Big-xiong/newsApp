@@ -1,5 +1,6 @@
 # Angular1x MVC框架
-自己从项目中获取的经验，欢迎大家提意见，相互学习，在用angular写项目的时候，通常会将controller,directive,filter,service,route分别定义成相应的模块，分成5个js文件来写，方便我们进行维护
+自己从项目中获取的经验，欢迎大家提意见，相互学习，在用angular写项目的时候，通常会将controller,directive,filter,service,route分别定义成相应的模块，分成5个js文件来写，方便我们进行维护,
+[查看官方文档](https://docs.angularjs.org/api)
 
 ## angular基础
 
@@ -199,7 +200,7 @@ routes.config(function($routeProvider){
      })
 });
 ```
-- 嵌套路由写法
+- 嵌套路由写法(spa单页面应用程序)
 ```javascript
 routes.config(function($stateProvider,$urlRouterProvider){
      // 刷新进入默认路由，显示默认页面
@@ -227,5 +228,7 @@ routes.config(function($stateProvider,$urlRouterProvider){
 });
 ```
 
-
 ## 常见解决问题的方法
+### $http传参
+### 组件之间的通信
+### 组件中不同模版的DIY方法
