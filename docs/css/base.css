@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+ul,li{
+    list-style: none;
+}
+
+/* .hengxiang {
+    不能给弹性盒子，弹性盒子的内容不能超过父级的内容，所以span无法撑开main。
+    display:flex;
+    width: 1000px;
+    height: 200px;
+    overflow-x: auto;
+    display: -webkit-box;
+    background-color: blue;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px;
+}
+
+.hengxiang .newslist {
+    display: block;
+    background-color: yellow;
+    margin-right: 10px;
+    margin-left: 10px;
+} */
