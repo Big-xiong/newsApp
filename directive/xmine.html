@@ -1,0 +1,76 @@
+<div class="xmine">
+    <div class="user-info"><a class="logout-box">
+          退出
+        </a>
+        <div class="user-avatar"><img src="https://media.ifanrusercontent.com/media/tavatar/88/b3/88b37558219c6f3c7801e9722b57d08ff56a8770.jpg"></div>
+        <div class="user-name">
+            雄BOY一号
+            <a href="/myaccount/"><i class="ifanr2015 ifanr2015-bianji"></i></a></div>
+        <div class="user-identity"><span class="user-company user-identity-default">公司</span><span class="user-position user-identity-default">职位</span></div>
+    </div>
+    <nav class="nav-row">
+        <ul>
+            <li class="active" ng-click="changeColumn(1)" ng-class="{active:num == 1}"><a ng-href="#!/home/mine/dongtai" class="first">我的动态</a></li>
+            <li class=" with-border" ng-click="changeColumn(2)" ng-class="{active:num == 2}"><a ng-href="#!/home/mine/shoucang">我的收藏</a></li>
+            <li class="" ng-click="changeColumn(3)" ng-class="{active:num == 3}"><a ng-href="#!/home/mine/xiaoxi">消息中心</a></li>
+        </ul>
+    </nav>
+    <ui-view></ui-view>
+</div>
+<style>
+.logout-box {
+    float: right;
+    margin-top: 20px;
+    margin-right: 20px;
+    color: #333;
+}
+
+.user-info {
+    height: 230px;
+    text-align: center;
+}
+
+.user-avatar {
+    padding-top: 60px;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+}
+
+.user-info img {
+    border-radius: 50%;
+    width: 100%;
+    text-align: center;
+}
+
+.user-name {
+    font-weight: bold;
+    line-height: 24px;
+}
+
+.user-identity {
+    color: #666;
+    font-size: 12px;
+}
+.nav-row{
+	padding:5px 0;
+	overflow: hidden;
+	border-top: 1px solid #e6e6e6;
+	border-bottom: 1px solid #e6e6e6;
+}
+.nav-row ul li a{
+	float: left;
+	width: 33%;
+	text-align: center;
+	font-size: 14px;
+	color: #666;
+	border-left: 1px solid #e6e6e6;
+}
+.nav-row ul li.active{
+	color: #000;
+	font-weight: bold;
+}
+.nav-row ul li .first{
+    border: 0;
+}
+</style>

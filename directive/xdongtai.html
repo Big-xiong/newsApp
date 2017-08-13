@@ -1,0 +1,86 @@
+<div class="dongtai">
+	<section class="dongtaiList" ng-show="!showNo" ng-repeat ="d in dongtai">
+		<div class="icon">
+			<img ng-src="{{d.imgurl?'img/main_shoucang.png':'img/main_pinglun.png'}}" alt="">	
+		</div>
+		<section class="dongtai_main">
+			<p class="tag">{{d.imgurl?tag[0]:tag[1]}}</p>
+			<!-- <img ng-src="d.imgurl" alt="" ng-if="d.imgurl"/> -->
+			<img ng-src="{{d.imgurl}}" alt=""  ng-if="d.imgurl">
+			<p class="content" ng-if="d.content">{{d.content}}</p>
+			<p class="dongtai_title" ng-class="{pinglun:d.content}">{{d.title | shortTitle}}</p>
+			<time ng-class="{pinglun:d.content}">{{d.time|date:'yyyy-MM-dd HH:mm:ss' }}</time>
+		</section>
+	</section>
+	<section class="nothing" ng-show="showNo">
+		<p>这里空如也什么也没有</p>
+	</section>
+</div>
+<style>
+	.dongtai{
+		padding-top: 20px;
+	}
+	.dongtaiList{
+		/*background-color: #666;*/
+		padding-bottom: 24px;
+		border-bottom: 1px dashed #eee;
+		overflow: hidden;
+		margin-bottom: 20px;
+		position: relative;
+		padding-left: 74px;
+	}
+	.dongtaiList img{
+		width: 100px;
+	}
+	.icon{
+		float: left;
+		position: absolute;
+		top: 0;
+		left:30px;
+	}
+	.icon img{
+		width: 30px;
+	}
+	.dongtai_main{
+		overflow: hidden;
+		float: left;
+	}
+	/*.dongtai_main .dongtai_title,.dongtai_main img{
+		float: left;
+	}*/
+	.dongtai_main img{
+		float: left;
+	}
+	time{
+		font-size: 12px;
+		color: #666;
+		margin-left: 10px;
+	}
+	time.pinglun{
+		margin-left: 0;
+	}
+	.dongtai_title{
+		width: 190px;
+		float: left;
+		margin-left: 10px;
+		font-size: 14px;
+	}
+	.dongtai_title.pinglun{
+		margin-left: 0;
+		width: 300px;
+		border-top: 1px solid #eee;
+		padding-top: 4px;
+		font-weight: bold;
+	}
+	.content{
+		padding-bottom: 4px;
+	}
+	.tag{
+		width: 100px;
+		margin-bottom: 10px;
+		/*float: left;*/
+	}
+	/* .dongtai_main .dongtai_title{
+		width: 100px;
+	} */
+</style>

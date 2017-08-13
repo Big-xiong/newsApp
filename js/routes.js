@@ -12,7 +12,7 @@
             url: '/video',
             templateUrl: 'template/video.html'
         }).state('home.index', {
-            url: '/index',
+            url: '/index/:tableNum',
             templateUrl: 'template/index.html'
         }).state('home.weitoutiao', {
             url: '/weitoutiao',
@@ -21,7 +21,7 @@
             url: '/mine',
             templateUrl: 'template/mine.html'
         })
-        // 三层路由
+        // home三层路由
         .state('home.weitoutiao.toutiao', {
             url: '/toutiao/:tableNum',
             templateUrl: 'template/toutiao.html'
@@ -47,11 +47,23 @@
             url: '/keji/:tableNum',
             templateUrl: 'template/keji.html'
         })
+        // mine三层路由
+        .state('home.mine.dongtai', {
+            url: '/dongtai',
+            templateUrl: 'template/dongtai.html'
+        }).state('home.mine.shoucang', {
+            url: '/shoucang',
+            templateUrl: 'template/shoucang.html'
+        }).state('home.mine.xiaoxi', {
+            url: '/xiaoxi',
+            templateUrl: 'template/xiaoxi.html'
+        })
 
+        // 详情页路由
         .state('detail', {
             url: '/detail/:id/:tableNum',
             templateUrl: 'template/detail.html'
         })
-        $urlRouterProvider.when('','/home/index');
+        $urlRouterProvider.when('','/home/index/1');
     }]);
 })();

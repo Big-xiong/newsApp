@@ -2,16 +2,16 @@
     <div class="weui-panel__hd">今日推荐</div>
     <div class="weui-panel__bd" ng-repeat="n in news|filter:{'title':keyword}" ng-class="{toutiao:n.text_image1==''}">
         <a href="#!/detail/{{n.news_id}}/{{tableNum}}" class="weui-media-box weui-media-box_appmsg">
-            <div class="weui-media-box__hd" ng-class="{toutiao:n.text_image1==''}">
+            <div class="weui-media-box__hd">
                 <img class="weui-media-box__thumb" ng-src="{{n.top_image}}" alt="" ng-class="{toutiao:n.text_image1==''}">
             </div>
-            <div class="weui-media-box__bd" ng-class="{toutiao:n.text_image1==''}">
-                <h4 class="weui-media-box__title" ng-class="{toutiao:n.text_image1==''}">{{n.title}}</h4>
-                <p class="weui-media-box__desc" ng-hide="n.text_image1==''">{{n.digest}}</p>
+            <div class="weui-media-box__bd">
+                <h4 class="weui-media-box__title">{{n.title}}</h4>
+                <p class="weui-media-box__desc">{{n.digest}}</p>
                 <span class="commentCount" ng-class="{toutiao:n.text_image1=='',active:n.reply_count >= 10}">评论数:{{n.reply_count}}</span>
                 <!-- <span>来源:{{n.source}}</span> -->
                 <!-- <span class="del" ng-class="{toutiao:n.text_image1==''}">x</span> -->
-                <span class="commentTime" ng-class="{toutiao:n.text_image1==''}">{{n.edit_time | toNum |date:"yyyy-MM-dd HH:mm:ss"}}</span>
+                <span class="commentTime">{{n.edit_time | toNum |date:"yyyy-MM-dd HH:mm:ss"}}</span>
                 <span class="hot" ng-class="{active:n.reply_count >= 10}" ng-show="n.text_image1 !=='' && n.reply_count >= 10 ">热</span>
             </div>
         </a>
@@ -50,7 +50,7 @@
 .weui-media-box__title.toutiao {
     position: absolute;
     top: -122px;
-    left: -346px;
+    left: -345px;
     font-size: 14px;
 }
 
@@ -88,8 +88,10 @@
     margin-bottom: 70px;
     margin-top: 10px;
 }
+
 .weui-media-box{
     overflow: hidden;
+    border-bottom: 1px solid #eee;
 }
 .weui-media-box__title {
     font-size: 14px;
@@ -115,7 +117,7 @@ span {
     margin-right: 4%;
     height: 1px;
     display: block;
-    border-bottom: 1px solid #e5e5e5;
+    /*border-bottom: 1px solid #e5e5e5;*/
 }
 .weui-cell.weui-cell_access.weui-cell_link:before{
     display: none;
@@ -142,7 +144,7 @@ span {
     height: 18px;
     border:1px solid red;
     position: absolute;
-    right: 252px;
+    right: 250px;
     bottom: 2px;
     color: red;
     text-align: center;

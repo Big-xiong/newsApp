@@ -2,6 +2,9 @@
     margin: 0;
     padding: 0;
 }
+ul,li{
+    list-style: none;
+}
 
 /* .hengxiang {
     不能给弹性盒子，弹性盒子的内容不能超过父级的内容，所以span无法撑开main。

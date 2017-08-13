@@ -5,10 +5,12 @@
         return {
             templateUrl: 'directive/xheader.html',
             link: function(scope, ele, attr) {
-                scope.columnArr = ['#!/home/index', '#!/home/weitoutiao/yule/2', '#!/home/weitoutiao/junshi/3', '#!/home/weitoutiao/qiche/4', '#!/home/weitoutiao/caijing/5', '#!/home/weitoutiao/xiaohua/6', '#!/home/weitoutiao/tiyu/7', '#!/home/weitoutiao/keji/8']
+                scope.baseUrl = "https://bird.ioliu.cn/v1?url=";
+                scope.columnArr = ['#!/home/index/1', '#!/home/weitoutiao/yule/2', '#!/home/weitoutiao/junshi/3', '#!/home/weitoutiao/qiche/4', '#!/home/weitoutiao/caijing/5', '#!/home/weitoutiao/xiaohua/6', '#!/home/weitoutiao/tiyu/7', '#!/home/weitoutiao/keji/8']
                 scope.tableNum = $state.params.tableNum;
                 scope.route = scope.columnArr[scope.tableNum - 1];
                 scope.title = attr.channel;
+                // console.log(scope.tableNum);
                 //console.log(scope.title);
             }
         }
@@ -16,40 +18,35 @@
     directives.directive('xsearch', [function() {
         return {
             templateUrl: 'directive/xsearch.html',
-            link:function(scope,ele,attr){
+            link: function(scope, ele, attr) {
                 scope.isShowSearch = false;
-                scope.keyword='';
-                scope.changeShowSearch = function(){
+                scope.keyword = '';
+                scope.changeShowSearch = function() {
                     scope.isShowSearch = true;
                 }
-                scope.clearWord = function(){
+                scope.clearWord = function() {
                     scope.keyword = '';
                 }
             }
         }
     }]);
-    directives.directive('xbanner', ['$http',"$timeout", function($http,$timeout) {
+    directives.directive('xbanner', ['$http', "$timeout", function($http, $timeout) {
         return {
             templateUrl: 'directive/xbanner.html',
             link: function(scope, ele, attr) {
                 scope.banner = [];
-                scope.tablenum = 1;
-                scope.page = 2;
-                scope.pageSize = 4;
+                scope.tablenum1 = 1;
+                scope.page1 = 2;
+                scope.pageSize1 = 4;
                 scope.isShow = 0;
-                scope.showImg = function(){
+                scope.showImg = function() {
                     scope.isShow++;
-                    $timeout(function(){
+                    $timeout(function() {
                         $http({
                             method: 'GET',
-                            url: 'http://localhost:6789/',
+                            url: scope.baseUrl + "http://api.dagoogle.cn/news/get-news?tableNum=" + scope.tablenum1 + "&pagesize=" + scope.pageSize1 + "&page=" + scope.page1,
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-                            },
-                            params: {
-                                tableNum: scope.tablenum,
-                                page: scope.page,
-                                pagesize: scope.pageSize
                             },
                             transformRequest: function(obj) {
                                 var str = [];
@@ -59,18 +56,18 @@
                                 return str.join("&");
                             }
                         }).then(function(data) {
-                            console.log(data.data.data);
+                            // console.log(data.data.data);
                             scope.banner = data.data.data;
                             scope.isShow--;
-                            if(scope.isShow != 0){
+                            if (scope.isShow != 0) {
                                 scope.isShow = 0;
                             }
-                            console.log(scope.isShow);
+                            // console.log(scope.isShow);
 
                         }, function(err) {
                             console.log(err);
                         });
-                    },1000)
+                    }, 1000)
                 }
                 scope.showImg();
                 var swiper = new Swiper('.swiper-container', {
@@ -88,9 +85,9 @@
             link: function(scope, ele, attr) {
                 scope.news = [];
                 scope.channel = attr.channel;
-                scope.tableNum = 1;
-                scope.page = 1;
-                scope.pagesize = 10;
+                scope.tableNum1 = 1;
+                scope.page1 = 1;
+                scope.pagesize1 = 10;
                 scope.noMore = false;
                 scope.showMore = true;
                 scope.changeShow = function() {
@@ -99,17 +96,18 @@
                 scope.showNews = function() {
                     scope.isShow++;
                     scope.showMore = false;
+                    scope.page1++;
                     $http({
                         method: 'GET',
-                        url: 'http://localhost:6789/',
+                        url: scope.baseUrl + "http://api.dagoogle.cn/news/get-news?tableNum=" + scope.tableNum1 + "&pagesize=" + scope.pagesize1 + "&page=" + scope.page1,
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
                         },
-                        params: {
+                        /*params: {
                             tableNum: scope.tableNum,
                             page: scope.page++,
                             pagesize: scope.pagesize
-                        },
+                        },*/
                         transformRequest: function(obj) {
                             var str = [];
                             for (var p in obj) {
@@ -118,13 +116,13 @@
                             return str.join("&");
                         }
                     }).then(function(data) {
-                        console.log(data.data.data);
+                        // console.log(data.data.data);
                         scope.news = scope.news.concat(data.data.data);
                         scope.isShow--;
                         scope.showMore = true;
                         if (scope.news.length >= 50) {
                             scope.noMore = true;
-                            scope.isShow=0;
+                            scope.isShow = 0;
                             scope.showMore = false;
                         }
                     }, function(err) {
@@ -169,46 +167,97 @@
             templateUrl: 'directive/xarticle.html',
             // controller:function(){
             //     $rootScope.toXgallery=function(){
-                     
+
             //     }
             // }
             link: function(scope, ele, attr) {
-                console.log($state);
+                // console.log($state);
                 scope.news_id = $state.params.id;
                 scope.channel = attr.channel;
-                scope.tableNum = $state.params.tableNum;
+                scope.tableNum2 = $state.params.tableNum;
                 scope.news = {};
                 scope.showNewsImg = false;
-                scope.click = function(e){
+                scope.mainContent = '';
+                scope.commentArr = [];
+                scope.isShou = false;
+                scope.dongtai = getCookie('dongtai') ? JSON.parse(getCookie('dongtai')) : [];
+                scope.hadshou = function() {
+                    var now = Date.parse(new Date());
+                    scope.isShou = !scope.isShou;
+                    if (!getCookie('dongtai')) {
+                        var dongtaiObj = {
+                            title: scope.news.title,
+                            imgurl: scope.news.top_image,
+                            time: now
+                        }
+                        scope.dongtai.push(dongtaiObj);
+                        setCookie("dongtai", JSON.stringify(scope.dongtai));
+                    } else {
+                        var dongtaiObj = {
+                            title: scope.news.title,
+                            imgurl: scope.news.top_image,
+                            time: now
+                        }
+                        scope.dongtai.push(dongtaiObj);
+                        setCookie("dongtai", JSON.stringify(scope.dongtai));
+                    }
+                }
+                scope.click = function(e) {
                     scope.imgUrl = e.target.src;
                     scope.showNewsImg = true;
                 }
-                scope.changeGallery = function(){
+                scope.changeGallery = function() {
                     scope.showNewsImg = false;
                 }
-                $http({
-                    method: 'GET',
-                    url: 'http://localhost:6788/',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-                    },
-                    params: {
-                        tableNum: scope.tableNum,
-                        id: scope.news_id
-                    },
-                    transformRequest: function(obj) {
-                        var str = [];
-                        for (var p in obj) {
-                            str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
+                scope.sendComment = function() {
+                    //document.getElementsByClassName('.newComment')[0];
+                    var now = Date.parse(new Date());
+                    var obj = {}
+                    obj.content = scope.mainContent;
+                    obj.time = now;
+                    scope.commentArr.push(obj);
+                    if (!getCookie('dongtai')) {
+                        console.log(222);
+                        var dongtaiObj = {
+                            title: scope.news.title,
+                            content: scope.mainContent,
+                            time: now
                         }
-                        return str.join("&");
+                        scope.dongtai.push(dongtaiObj);
+                        setCookie("dongtai", JSON.stringify(scope.dongtai));
+                    } else {
+                        var dongtaiObj = {
+                            title: scope.news.title,
+                            content: scope.mainContent,
+                            time: now
+                        }
+                        scope.dongtai.push(dongtaiObj);
+                        setCookie("dongtai", JSON.stringify(scope.dongtai));
                     }
-                }).then(function(data) {
-                    console.log(data.data.data);
-                    scope.news = data.data.data;
-                }, function(err) {
-                    console.log(err);
-                });
+                    scope.mainContent = '';
+                }
+                scope.detail = function() {
+                    $http({
+                        method: 'GET',
+                        url: scope.baseUrl + "http://api.dagoogle.cn/news/single-news?tableNum=" + scope.tableNum2 + "&news_id=" + scope.news_id,
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+                        },
+                        transformRequest: function(obj) {
+                            var str = [];
+                            for (var p in obj) {
+                                str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
+                            }
+                            return str.join("&");
+                        }
+                    }).then(function(data) {
+                        // console.log(data.data.data);
+                        scope.news = data.data.data;
+                    }, function(err) {
+                        console.log(err);
+                    });
+                }
+                scope.detail();
             }
         }
     }]);
@@ -242,8 +291,8 @@
         return {
             templateUrl: 'directive/xcolumnnews.html',
             link: function(scope, ele, attr) {
+                scope.baseUrl = "https://bird.ioliu.cn/v1?url=";
                 scope.channel = attr.channel;
-                console.log(scope.channel);
                 scope.news = [];
                 scope.tableNum = $state.params.tableNum;
                 scope.page = 1;
@@ -259,7 +308,7 @@
                 scope.showNews = function() {
                     $http({
                         method: 'GET',
-                        url: 'http://localhost:6789/',
+                        url: scope.baseUrl + "http://api.dagoogle.cn/news/get-news?tableNum=" + scope.tableNum + "&pagesize=" + scope.pagesize + "&page=" + scope.page,
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
                         },
@@ -276,7 +325,6 @@
                             return str.join("&");
                         }
                     }).then(function(data) {
-                        console.log(data.data.data);
                         scope.news = scope.news.concat(data.data.data);
                         scope.isShow = false;
                         scope.showMore = true;
@@ -290,6 +338,54 @@
                     });
                 }
                 scope.showNews();
+            }
+        }
+    }]);
+    directives.directive('xmine', ['$state', function($state) {
+        return {
+            templateUrl: 'directive/xmine.html',
+            link: function(scope, ele, attr) {
+                scope.num = 1;
+                scope.changeColumn = function(num) {
+                    scope.num = num;
+                }
+            }
+        }
+    }]);
+    directives.directive('xdongtai', ['$state', function($state) {
+        return {
+            templateUrl: 'directive/xdongtai.html',
+            link: function(scope, ele, attr) {
+                scope.dongtai = null;
+                scope.showNo = false;
+                scope.tag = ['收藏文章','发表评论']
+                scope.render = function() {
+                    scope.dongtai = getCookie('dongtai') ? JSON.parse(getCookie('dongtai')) : []
+                    console.log(scope.dongtai);
+                    if(scope.dongtai.length == 0){
+                        // console.log(111);
+                        scope.showNo = true;
+                    }else{
+                        scope.showNo = false;
+                    }
+                }
+                scope.render();
+            }
+        }
+    }]);
+    directives.directive('xshoucang', ['$state', function($state) {
+        return {
+            templateUrl: 'directive/xshoucang.html',
+            link: function(scope, ele, attr) {
+
+            }
+        }
+    }]);
+    directives.directive('xxiaoxi', ['$state', function($state) {
+        return {
+            templateUrl: 'directive/xxiaoxi.html',
+            link: function(scope, ele, attr) {
+
             }
         }
     }]);
